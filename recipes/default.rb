@@ -37,13 +37,17 @@ ark "eclipse" do
   action :install
 end
 
-if not node['eclipse']['plugins'].empty?
+# reject out any plugins explicitly requested to be excluded
+pluginSet = node['eclipse']['plugins'].reject
+  { |key, value|  node['eclipse']['excluding'].has_key?( key ) }
 
-  node['eclipse']['plugins'].each do |plugin_group|
+if not pluginSet.empty?
+
+  pluginSet.each do |plugin_group|
     repo, plugins = plugin_group.first
     execute "eclipse plugin install" do
       command "eclipse -application org.eclipse.equinox.p2.director -noSplash -repository #{repo} -installIUs #{plugins}"
       action :run
-    end
+    end unless plugins.empty?
   end
 end
