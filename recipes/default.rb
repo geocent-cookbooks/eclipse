@@ -38,8 +38,9 @@ ark "eclipse" do
 end
 
 # reject out any plugins explicitly requested to be excluded
-pluginSet = node['eclipse']['plugins'].reject
-  { |key, value|  node['eclipse']['excluding'].has_key?( key ) }
+pluginSet = node['eclipse']['plugins'].reject{ |key, value|
+                node['eclipse']['excluding'].has_key?( key )
+            }
 
 if not pluginSet.empty?
 
