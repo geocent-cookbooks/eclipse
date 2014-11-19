@@ -45,6 +45,7 @@ pluginSet =
             }
   else
     node['eclipse']['plugins']
+  end
 
 if not pluginSet.empty?
 
