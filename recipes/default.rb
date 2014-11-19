@@ -41,7 +41,7 @@ end
 pluginSet =
   if ( node['eclipse'].has_key?( 'excluding' ) ) then
     node['eclipse']['plugins'].reject{ |key, value|
-                node['eclipse']['excluding'].has_key?( key )
+                node['eclipse']['excluding'].include?( key )
             }
   else
     node['eclipse']['plugins']
