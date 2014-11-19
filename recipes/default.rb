@@ -39,11 +39,12 @@ end
 
 # reject out any plugins explicitly requested to be excluded
 pluginSet =
-  node['eclipse'].has_key?( 'excluding' )
-    ? node['eclipse']['plugins'].reject{ |key, value|
+  if ( node['eclipse'].has_key?( 'excluding' ) ) then
+    node['eclipse']['plugins'].reject{ |key, value|
                 node['eclipse']['excluding'].has_key?( key )
             }
-    : node['eclipse']['plugins']
+  else
+    node['eclipse']['plugins']
 
 if not pluginSet.empty?
 
