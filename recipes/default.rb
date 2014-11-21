@@ -44,7 +44,7 @@ if not featureSet.empty?
 
   featureSet.each do |featureIU|
     execute "eclipse uninstall feature #{featureIU}" do
-      command "eclipse -application org.eclipse.equinox.p2.director -noSplash -repository #{repo} -uninstallIU #{featureIU} -tag VagrantUninstalled"
+      command "eclipse -application org.eclipse.equinox.p2.director -noSplash -uninstallIU #{featureIU} -tag VagrantUninstalled"
       action :run
       ignore_failure true
     end
