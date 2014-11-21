@@ -52,8 +52,9 @@ if not pluginSet.empty?
   pluginSet.each do |plugin_group|
     repo, plugins = plugin_group.first
     execute "eclipse plugin install" do
-      command "eclipse -application org.eclipse.equinox.p2.director -noSplash -repository #{repo} -installIUs #{plugins} -tag VagrantInstalled -destination /usr/local/eclipse-#{node['eclipse']['version']} -profile epp.package.#{node['eclipse']['suite']}"
+      command "eclipse -application org.eclipse.equinox.p2.director -noSplash -repository #{repo} -installIUs #{plugins} -tag VagrantInstalled"
       action :run
+      ignore_failure true
     end unless plugins.empty?
   end
 end
