@@ -37,20 +37,6 @@ ark "eclipse" do
   action :install
 end
 
-# remove any unwanted features from the requested bundle
-featureSet = node['eclipse']['remove_existing']
-
-if not featureSet.empty?
-
-  featureSet.each do |featureIU|
-    execute "eclipse uninstall feature #{featureIU}" do
-      command "eclipse -application org.eclipse.equinox.p2.director -noSplash -uninstallIU #{featureIU} -tag VagrantUninstalled"
-      action :run
-      ignore_failure true
-    end
-  end
-end
-
 # reject out any plugins explicitly requested to be excluded
 pluginSet =
   if ( node['eclipse'].has_key?( 'excluding' ) ) then
