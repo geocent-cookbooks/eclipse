@@ -51,20 +51,20 @@ pluginSet =
 if not pluginSet.empty?
 
   pluginSet.each do |plugin_group|
-    repo, givenPlugins = plugin_group.first
+    repo, givenFeats = plugin_group.first
 
-    neededPlugins = givenPlugins.split(',').reject{ |p|
+    neededFeats = givenFeats.split(',').reject{ |p|
     
-      File.exist?( File.join( "/usr/local/eclipse-#{node['eclipse']['version']}", "plugins", "#{p}_*.jar" ))
+      Dir.exist?( File.join( "/usr/local/eclipse-#{node['eclipse']['version']}", "features", "#{p}".sub( /\.feature\.group/, '' ) + "_*" ))
       
     }
     
-    plugins = neededPlugins.join(',')
+    features = neededFeats.join(',')
     
-    execute "eclipse install plugin(s) #{plugins}" do
-      command "eclipse -application org.eclipse.equinox.p2.director -noSplash -repository #{repo} -installIUs #{plugins} -tag VagrantInstalled"
+    execute "eclipse install features(s) #{features}" do
+      command "eclipse -application org.eclipse.equinox.p2.director -noSplash -repository #{repo} -installIUs #{features} -tag VagrantInstalled"
       action :run
       ignore_failure true
-    end unless plugins.empty?
+    end unless features.empty?
   end
 end
