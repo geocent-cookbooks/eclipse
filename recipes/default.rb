@@ -37,7 +37,7 @@ ark "eclipse" do
   action :install
 end
 
-# reject out any plugins explicitly requested to be excluded
+# reject out any plugin sets explicitly requested to be excluded
 pluginSet =
   if ( node['eclipse'].has_key?( 'excluding' ) ) then
     node['eclipse']['plugins'].reject{ |key, value|
@@ -52,6 +52,12 @@ if not pluginSet.empty?
 
   pluginSet.each do |plugin_group|
     repo, plugins = plugin_group.first
+
+    plugins.reject!{ |p|
+    
+      File.exist?( File.join( "/usr/local/eclipse-#{node['eclipse']['version']}", "plugins", "#{p}_*.jar" ))
+    }
+    
     execute "eclipse install plugin(s) #{plugins}" do
       command "eclipse -application org.eclipse.equinox.p2.director -noSplash -repository #{repo} -installIUs #{plugins} -tag VagrantInstalled"
       action :run
