@@ -51,12 +51,14 @@ pluginSet =
 if not pluginSet.empty?
 
   pluginSet.each do |plugin_group|
-    repo, plugins = plugin_group.first
+    repo, givenPlugins = plugin_group.first
 
-    plugins.reject!{ |p|
+    newPlugins = givenPlugins.split(',').reject!{ |p|
     
       File.exist?( File.join( "/usr/local/eclipse-#{node['eclipse']['version']}", "plugins", "#{p}_*.jar" ))
     }
+    
+    plugins = newPlugins.join(',')
     
     execute "eclipse install plugin(s) #{plugins}" do
       command "eclipse -application org.eclipse.equinox.p2.director -noSplash -repository #{repo} -installIUs #{plugins} -tag VagrantInstalled"
