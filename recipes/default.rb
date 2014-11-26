@@ -35,6 +35,7 @@ ark "eclipse" do
   has_binaries ['eclipse']
   append_env_path true
   action :install
+  not_if Pathname.new( "/usr/local/bin/eclipse" ).exists?
 end
 
 # reject out any plugin sets explicitly requested to be excluded
@@ -50,17 +51,18 @@ pluginSet =
 # install all requested, not rejected, features
 if not pluginSet.empty?
 
+  featuresDir = Pathname.new( "/usr/local/eclipse-#{node['eclipse']['version']}/features" )
+
   pluginSet.each do |plugin_group|
     repo, givenFeats = plugin_group.first
 
     neededFeats = givenFeats.split(',').reject{ |p|
     
-      featureXml = File.join( "/usr/local/eclipse-#{node['eclipse']['version']}", "features", "**", "#{p}".sub( /\.feature\.group/, '' ) + "_*", "feature.xml" )
+      featureXml = featuresDir.join( "**", "#{p}".sub( /\.feature\.group/, '' ) + "_*", "feature.xml" )
       
       log "Checking for File #{featureXml}"
       
-      !Dir.glob( featureXml )
-      
+      !Pathname.glob( featureXml ).empty?      
     }
     
     features = neededFeats.join(',')
