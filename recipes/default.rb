@@ -55,11 +55,11 @@ if not pluginSet.empty?
 
     neededFeats = givenFeats.split(',').reject{ |p|
     
-      featureDir = File.join( "/usr/local/eclipse-#{node['eclipse']['version']}", "features", "#{p}".sub( /\.feature\.group/, '' ) + "_*" )
+      featureXml = File.join( "/usr/local/eclipse-#{node['eclipse']['version']}", "features", "**", "#{p}".sub( /\.feature\.group/, '' ) + "_*", "feature.xml" )
       
-      log "Checking for Directory #{featureDir}"
+      log "Checking for File #{featureXml}"
       
-      Dir.exist?( featureDir )
+      !Dir.glob( featureXml )
       
     }
     
