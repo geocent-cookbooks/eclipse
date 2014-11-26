@@ -60,8 +60,6 @@ if not pluginSet.empty?
     
       featureXml = featuresDir.join( "**", "#{p}".sub( /\.feature\.group/, '' ) + "_*", "feature.xml" )
       
-      log "Checking for File #{featureXml}"
-      
       !Pathname.glob( featureXml ).empty?
     }
     
