@@ -35,6 +35,8 @@ ark "eclipse" do
   has_binaries ['eclipse']
   append_env_path true
   action :install
+  mode 0666
+  
   not_if { Pathname.new( "/usr/local/bin/eclipse" ).exist? }
 end
 
