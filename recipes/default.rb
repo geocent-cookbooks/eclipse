@@ -28,6 +28,14 @@ else
   eclipse_url = node['eclipse']['url']
 end
 
+# needed for Eclipse's interal SWT-based web browser
+%w[ libqt4-webkit libqt5webkit5 libqtscript4-webkit libqtwebkit4 libswt-webkit-gtk-3-jni libwebkitgtk-1.0-0 libwebkitgtk-3.0-0 ].each { |pkg|
+
+  package pkg do
+    action :upgrade
+  end
+}
+
 ark "eclipse" do
   url eclipse_url
   version node['eclipse']['version']
