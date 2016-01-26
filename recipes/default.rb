@@ -47,7 +47,7 @@ if node['eclipse']['url'].empty?
     node['eclipse']['release_code']
   ].join('/')
 
-  eclipse_url = "#{eclipse_url_path}/#{eclipse_image}.tar.gz&r=1"
+  eclipse_url = "#{eclipse_url_path}/#{eclipse_image}.tar.gz"
       
 else
   eclipse_url = node['eclipse']['url']
