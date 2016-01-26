@@ -28,12 +28,26 @@ include_recipe "ark"
   end
 }
 
-# /mars/R/eclipse-modeling-mars-R-linux-gtk-x86_64.tar.gz
+# http://download.eclipse.org/technology/epp/downloads/release/mars/R/eclipse-modeling-mars-R-linux-gtk-x86_64.tar.gz
 
 if node['eclipse']['url'].empty?
-  eclipse_url_head = "http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release"
-  eclipse_url_tail = "/#{node['eclipse']['version']}/#{node['eclipse']['release_code']}/eclipse-#{node['eclipse']['suite']}-#{node['eclipse']['version']}-#{node['eclipse']['release_code']}-#{node['eclipse']['os']}-#{node['eclipse']['arch']}.tar.gz&r=1"
-  eclipse_url = eclipse_url_head + eclipse_url_tail
+  
+  eclipse_url_head = node['eclipse']['site']
+  
+  eclipse_image = [ 
+    "eclipse",
+    node['eclipse']['suite'],
+    node['eclipse']['version'],
+    node['eclipse']['release_code'],
+    node['eclipse']['os'],
+    node['eclipse']['arch']
+  ].join('-')
+      
+  eclipse_url_path = [ node['eclipse']['version'], node['eclipse']['release_code'] ].join('/')
+
+  eclipse_url = "#{eclipse_url_head}/#{eclipse_url_path}"
+    + "#{eclipse_image}.tar.gz&r=1"
+      
 else
   eclipse_url = node['eclipse']['url']
 end
