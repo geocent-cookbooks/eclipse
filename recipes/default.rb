@@ -2,6 +2,7 @@
 # Cookbook Name:: eclipse
 # Recipe:: default
 #
+# Copyright (C) 2016 Lonnie VanZandt
 # Copyright (C) 2013 Geocent, LLC
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +18,6 @@
 # limitations under the License.
 #
 
-include_recipe "java"
 include_recipe "ark"
 
 # needed for Eclipse's internal SWT-based web browser
