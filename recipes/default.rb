@@ -20,21 +20,23 @@
 include_recipe "java"
 include_recipe "ark"
 
-if node['eclipse']['url'].empty?
-  eclipse_url_lead = "http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release"
-  eclipse_url_tail = "/#{node['eclipse']['version']}/#{node['eclipse']['release_code']}/eclipse-#{node['eclipse']['suite']}-#{node['eclipse']['version']}-#{node['eclipse']['release_code']}-#{node['eclipse']['os']}-#{node['eclipse']['arch']}.tar.gz&r=1"
-  eclipse_url = eclipse_url_lead + eclipse_url_tail
-else
-  eclipse_url = node['eclipse']['url']
-end
-
-# needed for Eclipse's interal SWT-based web browser
+# needed for Eclipse's internal SWT-based web browser
 %w[ libqt4-webkit libqt5webkit5 libqtscript4-webkit libqtwebkit4 libswt-webkit-gtk-3-jni libwebkitgtk-1.0-0 libwebkitgtk-3.0-0 ].each { |pkg|
 
   package pkg do
     action :upgrade
   end
 }
+
+# /mars/R/eclipse-modeling-mars-R-linux-gtk-x86_64.tar.gz
+
+if node['eclipse']['url'].empty?
+  eclipse_url_head = "http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release"
+  eclipse_url_tail = "/#{node['eclipse']['version']}/#{node['eclipse']['release_code']}/eclipse-#{node['eclipse']['suite']}-#{node['eclipse']['version']}-#{node['eclipse']['release_code']}-#{node['eclipse']['os']}-#{node['eclipse']['arch']}.tar.gz&r=1"
+  eclipse_url = eclipse_url_head + eclipse_url_tail
+else
+  eclipse_url = node['eclipse']['url']
+end
 
 ark "eclipse" do
   url eclipse_url
