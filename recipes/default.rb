@@ -103,3 +103,14 @@ end
 execute "make eclipse area writeable" do
   command "chmod -R a+rw /usr/local/eclipse-#{node['eclipse']['version']}"
 end
+
+# add a nice font for the editors
+execute "install font Source Code Pro" do
+  command "git clone --depth 1 --branch release https://github.com/adobe-fonts/source-code-pro.git /opt/fonts/adobe-fonts/source-code-pro
+fc-cache -f -v /opt/fonts/adobe-fonts/source-code-pro"
+end
+
+# get some customizations for Zsh
+execute "install zsh scripts" do
+  command "git clone --depth 1 --branch master https://github.com/robbyrussell/oh-my-zsh.git /opt/dot-oh-my-zsh"
+end
