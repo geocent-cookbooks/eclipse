@@ -4,13 +4,13 @@
 #
 # Copyright (C) 2016 Lonnie VanZandt
 # Copyright (C) 2013 Geocent, LLC
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #    http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,8 +31,8 @@ include_recipe "ark"
 # http://download.eclipse.org/technology/epp/downloads/release/mars/R/eclipse-modeling-mars-R-linux-gtk-x86_64.tar.gz
 
 if node['eclipse']['url'].empty?
-   
-  eclipse_image = [ 
+
+  eclipse_image = [
     "eclipse",
     node['eclipse']['suite'],
     node['eclipse']['version'],
@@ -40,7 +40,7 @@ if node['eclipse']['url'].empty?
     node['eclipse']['os'],
     node['eclipse']['arch']
   ].join('-')
-      
+
   eclipse_url_path = [
     node['eclipse']['site'],
     node['eclipse']['version'],
@@ -48,7 +48,7 @@ if node['eclipse']['url'].empty?
   ].join('/')
 
   eclipse_url = "#{eclipse_url_path}/#{eclipse_image}.tar.gz"
-      
+
 else
   eclipse_url = node['eclipse']['url']
 end
@@ -60,7 +60,7 @@ ark "eclipse" do
   has_binaries ['eclipse']
   append_env_path true
   action :install
-  
+
   not_if { Pathname.new( "/usr/local/bin/eclipse" ).exist? }
 end
 
@@ -83,14 +83,14 @@ if not pluginSet.empty?
     repo, givenFeats = plugin_group.first
 
     neededFeats = givenFeats.split(',').reject{ |p|
-    
+
       featureXml = featuresDir.join( "**", "#{p}".sub( /\.feature\.group/, '' ) + "_*", "feature.xml" )
-      
+
       !Pathname.glob( featureXml ).empty?
     }
-    
+
     features = neededFeats.join(',')
-    
+
     execute "eclipse install features(s) #{features}" do
       command "eclipse -application org.eclipse.equinox.p2.director -noSplash -repository #{repo} -installIUs #{features} -tag VagrantInstalled"
       action :run
@@ -108,9 +108,11 @@ end
 execute "install font Source Code Pro" do
   command "git clone --depth 1 --branch release https://github.com/adobe-fonts/source-code-pro.git /opt/fonts/adobe-fonts/source-code-pro
 fc-cache -f -v /opt/fonts/adobe-fonts/source-code-pro"
+  not_if { Pathname.new( "/opt/fonts/adobe-fonts/source-code-pro" ).exist? }
 end
 
 # get some customizations for Zsh
 execute "install zsh scripts" do
   command "git clone --depth 1 --branch master https://github.com/robbyrussell/oh-my-zsh.git /opt/dot-oh-my-zsh"
+  not_if { Pathname.new( "/opt/dot-oh-my-zsh" ).exist? }
 end
