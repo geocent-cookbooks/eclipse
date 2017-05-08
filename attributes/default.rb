@@ -5,7 +5,7 @@
 
 default['eclipse']['version'] = 'kepler'
 default['eclipse']['release_code'] = 'R'
-default['eclipse']['arch'] = kernel['machine'] =~ /x86_64/ ? "x86_64" : ""
+default['eclipse']['arch'] = node['kernel']['machine'] =~ /x86_64/ ? "x86_64" : ""
 default['eclipse']['suite'] = 'jee'
 
 default['eclipse']['plugins'] = [{"http://download.eclipse.org/releases/kepler"=>"org.eclipse.egit.feature.group"},
