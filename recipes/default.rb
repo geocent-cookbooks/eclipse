@@ -20,13 +20,13 @@
 
 include_recipe "ark"
 
-# needed for Eclipse's internal SWT-based web browser
-%w[ libqt5webkit5 libqtscript4-webkit libqtwebkit4 libswt-webkit-gtk-3-jni libwebkitgtk-1.0-0 libwebkitgtk-3.0-0 ].each { |pkg|
-
-  package pkg do
-    action :upgrade
-  end
-}
+# No Longer needed for Eclipse's internal SWT-based web browser
+# %w[ libqt5webkit5 libqtscript4-webkit libqtwebkit4 libswt-webkit-gtk-3-jni libwebkitgtk-1.0-0 libwebkitgtk-3.0-0 ].each { |pkg|
+#
+#  package pkg do
+#    action :upgrade
+#  end
+# }
 
 # http://download.eclipse.org/technology/epp/downloads/release/mars/R/eclipse-modeling-mars-R-linux-gtk-x86_64.tar.gz
 
